@@ -13,9 +13,4 @@ public class LaunchController : MonoBehaviour
         launchRigidbodies[1].velocity.y = 5;
 
     }
-
-    void Update()
-    {
-        
-    }
 }
