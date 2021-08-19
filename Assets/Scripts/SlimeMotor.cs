@@ -10,35 +10,51 @@ public class SlimeMotor : MonoBehaviour
     float distanceToFriendZ;
     float distanceToFriend;
     public float reachedThreshold;
+    public bool friendSpotted;
     public bool closeEnough;
+    public float sightDistance;
 
     public Vector3 lookDirection;
     public float rotationSpeed;
 
-    public int jumpFrequency;
+    public float jumpFrequency;
     public float jumpTimer;
     bool jumpAgain;
     public int jumpHeight;
     public int jumpDistance;
 
+    public float randTimer;
+    Vector3 randLocation;
+
     void Start()
     {
+        friendSpotted = false;
         closeEnough = false;
         jumpTimer = 0.0f;
         jumpAgain = false;
+
+        jumpFrequency = Random.Range(0.5f, 1.5f);
+
+        randTimer = 0.0f;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.forward * sightDistance);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, randLocation - transform.position);
     }
 
     void Update()
     {
-        lookDirection = friend.position - transform.position;
-        lookDirection.y = 0.0f;
-        transform.rotation = Quaternion.LookRotation(lookDirection);
+        friendSpotted = Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, sightDistance);
                 
         distanceToFriendX = rbody.position.x - friend.position.x;
         distanceToFriendZ = rbody.position.z - friend.position.z;
         distanceToFriend = Mathf.Abs(distanceToFriendX) + Mathf.Abs(distanceToFriendZ);
 
-        if (distanceToFriend <= reachedThreshold)
+        if (distanceToFriend <= reachedThreshold) // TODO maybe adjust for line of sight
         {
             closeEnough = true;
         }
@@ -47,24 +63,52 @@ public class SlimeMotor : MonoBehaviour
             closeEnough = false;
         }
 
-        if (!closeEnough)
+        if (friendSpotted)
         {
-            if (jumpAgain)
+            randTimer = 0.0f;
+            randLocation = friend.position;
+
+            lookDirection = friend.position - transform.position;
+            lookDirection.y = 0.0f;
+            transform.rotation = Quaternion.LookRotation(lookDirection);
+
+            if (!closeEnough)
             {
-                rbody.AddForce(transform.up * jumpHeight * Time.deltaTime, ForceMode.Impulse);
-                rbody.AddForce(transform.forward * jumpDistance * Time.deltaTime, ForceMode.Impulse);
-                jumpAgain = false;
+                if (jumpAgain)
+                {
+                    rbody.AddForce(transform.up * jumpHeight * Time.deltaTime, ForceMode.Impulse);
+                    rbody.AddForce(transform.forward * jumpDistance * Time.deltaTime, ForceMode.Impulse);
+                    jumpAgain = false;
+                }
+            }
+
+            if (!jumpAgain)
+            {
+                jumpTimer += Time.deltaTime;
+                if (jumpTimer >= jumpFrequency)
+                {
+                    jumpTimer = 0.0f;
+                    jumpAgain = true;
+                }
             }
         }
-
-        if (!jumpAgain)
+        else
         {
-            jumpTimer += Time.deltaTime;
-            if (jumpTimer >= jumpFrequency)
+            randTimer += Time.deltaTime;
+
+            if(randTimer >= 5)
             {
-                jumpTimer = 0.0f;
-                jumpAgain = true;
+                Debug.Log("New location");
+                float randX = Random.Range(0.0f, 100.0f);
+                float randZ = Random.Range(0.0f, 100.0f);
+                randLocation = new Vector3(randX, 0.0f, randZ);
+                randTimer = 0.0f;
             }
+
+            lookDirection = randLocation- transform.position;
+            Quaternion randLookDirection = Quaternion.LookRotation(randLocation - transform.position);
+            lookDirection.y = 0.0f;
+            transform.rotation = Quaternion.Lerp(transform.rotation, randLookDirection, Time.deltaTime * rotationSpeed);
         }
     }
 }
