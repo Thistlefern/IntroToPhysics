@@ -12,6 +12,9 @@ public class SlimeMotor : MonoBehaviour
     public float reachedThreshold;
     public bool closeEnough;
 
+    public Vector3 lookDirection;
+    public float rotationSpeed;
+
     public int jumpFrequency;
     public float jumpTimer;
     bool jumpAgain;
@@ -27,17 +30,13 @@ public class SlimeMotor : MonoBehaviour
 
     void Update()
     {
+        lookDirection = friend.position - transform.position;
+        lookDirection.y = 0.0f;
+        transform.rotation = Quaternion.LookRotation(lookDirection);
+                
         distanceToFriendX = rbody.position.x - friend.position.x;
         distanceToFriendZ = rbody.position.z - friend.position.z;
         distanceToFriend = Mathf.Abs(distanceToFriendX) + Mathf.Abs(distanceToFriendZ);
-
-        // Debug.Log(distanceToFriend);
-        // Debug.Log("X: " + Mathf.Abs(distanceToFriendX));
-        // Debug.Log("Z: " + Mathf.Abs(distanceToFriendZ));
-
-        // transform.LookAt(friend.position);
-
-        transform.rotation = Quaternion.Euler(0.0f, (distanceToFriendX + distanceToFriendZ) * 10, 0.0f).normalized;
 
         if (distanceToFriend <= reachedThreshold)
         {
@@ -48,24 +47,24 @@ public class SlimeMotor : MonoBehaviour
             closeEnough = false;
         }
 
-        //if (!closeEnough)
-        //{
-        //    if (jumpAgain)
-        //    {
-        //        rbody.AddForce(transform.up * jumpHeight * Time.deltaTime, ForceMode.Impulse);
+        if (!closeEnough)
+        {
+            if (jumpAgain)
+            {
+                rbody.AddForce(transform.up * jumpHeight * Time.deltaTime, ForceMode.Impulse);
+                rbody.AddForce(transform.forward * jumpDistance * Time.deltaTime, ForceMode.Impulse);
+                jumpAgain = false;
+            }
+        }
 
-        //        jumpAgain = false;
-        //    }
-        //}
-
-        //if (!jumpAgain)
-        //{
-        //    jumpTimer += Time.deltaTime;
-        //    if(jumpTimer >= jumpFrequency)
-        //    {
-        //        jumpTimer = 0.0f;
-        //        jumpAgain = true;
-        //    }
-        //}
+        if (!jumpAgain)
+        {
+            jumpTimer += Time.deltaTime;
+            if (jumpTimer >= jumpFrequency)
+            {
+                jumpTimer = 0.0f;
+                jumpAgain = true;
+            }
+        }
     }
 }
