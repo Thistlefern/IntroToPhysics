@@ -24,7 +24,11 @@ public class SlimeMotor : MonoBehaviour
     public int jumpDistance;
 
     public float randTimer;
-    Vector3 randLocation;
+    float randRot;
+
+    public int happiness;
+    // public bool megaSlime;
+    public GameObject megaArt;
 
     void Start()
     {
@@ -33,26 +37,43 @@ public class SlimeMotor : MonoBehaviour
         jumpTimer = 0.0f;
         jumpAgain = false;
 
-        jumpFrequency = Random.Range(0.5f, 1.5f);
+        reachedThreshold = 4;
+        sightDistance = 10;
+        rotationSpeed = 20;
+        jumpDistance = 100;
+
+        jumpFrequency = Random.Range(1.0f, 2.0f);
 
         randTimer = 0.0f;
+
+        happiness = 0;
+        //megaSlime = false;
+        megaArt.SetActive(false);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, transform.forward * sightDistance);
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawRay(transform.position, randLocation - transform.position);
+        Gizmos.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.0f), transform.forward * sightDistance);
     }
 
     void Update()
     {
-        friendSpotted = Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, sightDistance);
+        friendSpotted = Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), transform.forward, out RaycastHit hit, sightDistance);
                 
         distanceToFriendX = rbody.position.x - friend.position.x;
         distanceToFriendZ = rbody.position.z - friend.position.z;
         distanceToFriend = Mathf.Abs(distanceToFriendX) + Mathf.Abs(distanceToFriendZ);
+
+        if (happiness >= 10)
+        {
+            // megaSlime = true;
+            reachedThreshold = 16;
+            sightDistance = 40;
+            rotationSpeed = 15;
+            jumpDistance = 200;
+            megaArt.SetActive(true);
+        }
 
         if (distanceToFriend <= reachedThreshold) // TODO maybe adjust for line of sight
         {
@@ -66,10 +87,11 @@ public class SlimeMotor : MonoBehaviour
         if (friendSpotted)
         {
             randTimer = 0.0f;
-            randLocation = friend.position;
+            randRot = (friend.position - transform.position).normalized.y;
 
             lookDirection = friend.position - transform.position;
             lookDirection.y = 0.0f;
+
             transform.rotation = Quaternion.LookRotation(lookDirection);
 
             if (!closeEnough)
@@ -98,16 +120,16 @@ public class SlimeMotor : MonoBehaviour
 
             if(randTimer >= 5)
             {
-                float randX = Random.Range(-180.0f, 180.0f);
-                float randZ = Random.Range(-180.0f, 180.0f);
-                randLocation = new Vector3(randX, 0.0f, randZ);
+                randRot = Random.Range(-180.0f, 180.0f);
                 randTimer = 0.0f;
+                Whatever();
             }
-
-            lookDirection = randLocation- transform.position;
-            Quaternion randLookDirection = Quaternion.LookRotation(randLocation - transform.position);
-            lookDirection.y = 0.0f;
-            transform.rotation = Quaternion.Lerp(transform.rotation, randLookDirection, Time.deltaTime * rotationSpeed);
         }
+    }
+    [ContextMenu("Whatever")]
+    public void Whatever()
+    {
+        Quaternion randLookDirection = Quaternion.Euler(new Vector3(0.0f, randRot, 0.0f));
+        transform.rotation = randLookDirection;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlimePicker : MonoBehaviour
 {
-    public Camera camera;
+    public new Camera camera;
 
     public bool slimeSelected;
 
@@ -19,7 +19,6 @@ public class SlimePicker : MonoBehaviour
         Gizmos.DrawRay(camera.ScreenPointToRay(Input.mousePosition));
     }
 
-    // Update is called once per frame
     void Update()
     {
         Cursor.lockState = CursorLockMode.Confined;
