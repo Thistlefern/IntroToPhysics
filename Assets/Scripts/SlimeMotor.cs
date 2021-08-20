@@ -42,8 +42,8 @@ public class SlimeMotor : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * sightDistance);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, randLocation - transform.position);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawRay(transform.position, randLocation - transform.position);
     }
 
     void Update()
@@ -98,9 +98,8 @@ public class SlimeMotor : MonoBehaviour
 
             if(randTimer >= 5)
             {
-                Debug.Log("New location");
-                float randX = Random.Range(0.0f, 100.0f);
-                float randZ = Random.Range(0.0f, 100.0f);
+                float randX = Random.Range(-180.0f, 180.0f);
+                float randZ = Random.Range(-180.0f, 180.0f);
                 randLocation = new Vector3(randX, 0.0f, randZ);
                 randTimer = 0.0f;
             }

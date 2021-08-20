@@ -329,11 +329,11 @@ GameObject:
   - component: {fileID: 575503877}
   m_Layer: 0
   m_Name: Slime (2)
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &575503877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,16 +348,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 575503879}
   friend: {fileID: 1431869675}
-  reachedThreshold: 3
+  reachedThreshold: 4
   friendSpotted: 0
   closeEnough: 0
-  sightDistance: 0
+  sightDistance: 10
   lookDirection: {x: 0, y: 0, z: 0}
-  rotationSpeed: 15
+  rotationSpeed: 20
   jumpFrequency: 2
   jumpTimer: 0
   jumpHeight: 100
-  jumpDistance: 50
+  jumpDistance: 100
   randTimer: 0
 --- !u!65 &575503878
 BoxCollider:
@@ -670,6 +670,8 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
+  - component: {fileID: 963194232}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -735,13 +737,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.47278145, y: 0, z: 0, w: 0.88117975}
-  m_LocalPosition: {x: 0, y: 8.8, z: -7.1}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 0, y: 20, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 56.43, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,6 +771,32 @@ MonoBehaviour:
   launchRigidbodies:
   - {fileID: 1464294781}
   - {fileID: 110914345}
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8611ae0d462e9be46b1519685943b60e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 963194227}
+--- !u!114 &963194232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf36bca7259f8f24caa9f6faf971f178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1431869673}
 --- !u!1 &1197787037
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,11 +811,11 @@ GameObject:
   - component: {fileID: 1197787038}
   m_Layer: 0
   m_Name: Slime (3)
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1197787038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -802,16 +830,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 1197787040}
   friend: {fileID: 1431869675}
-  reachedThreshold: 3
+  reachedThreshold: 4
   friendSpotted: 0
   closeEnough: 0
-  sightDistance: 0
+  sightDistance: 10
   lookDirection: {x: 0, y: 0, z: 0}
-  rotationSpeed: 15
+  rotationSpeed: 20
   jumpFrequency: 2
   jumpTimer: 0
   jumpHeight: 100
-  jumpDistance: 50
+  jumpDistance: 100
   randTimer: 0
 --- !u!65 &1197787039
 BoxCollider:
@@ -871,11 +899,11 @@ GameObject:
   - component: {fileID: 1244594094}
   m_Layer: 0
   m_Name: Slime (1)
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1244594094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,16 +918,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 1244594096}
   friend: {fileID: 1431869675}
-  reachedThreshold: 3
+  reachedThreshold: 4
   friendSpotted: 0
   closeEnough: 0
-  sightDistance: 0
+  sightDistance: 10
   lookDirection: {x: 0, y: 0, z: 0}
-  rotationSpeed: 15
+  rotationSpeed: 20
   jumpFrequency: 2
   jumpTimer: 0
   jumpHeight: 100
-  jumpDistance: 50
+  jumpDistance: 100
   randTimer: 0
 --- !u!65 &1244594095
 BoxCollider:
@@ -1001,7 +1029,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431869673}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.993, y: 1.22, z: 0.044028282}
+  m_LocalPosition: {x: 0, y: 1.22, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 651536009}
@@ -1145,11 +1173,11 @@ GameObject:
   - component: {fileID: 1545162108}
   m_Layer: 0
   m_Name: Slime (4)
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1545162108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1164,16 +1192,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 1545162110}
   friend: {fileID: 1431869675}
-  reachedThreshold: 3
+  reachedThreshold: 4
   friendSpotted: 0
   closeEnough: 0
-  sightDistance: 0
+  sightDistance: 10
   lookDirection: {x: 0, y: 0, z: 0}
-  rotationSpeed: 15
+  rotationSpeed: 20
   jumpFrequency: 2
   jumpTimer: 0
   jumpHeight: 100
-  jumpDistance: 50
+  jumpDistance: 100
   randTimer: 0
 --- !u!65 &1545162109
 BoxCollider:
@@ -1352,7 +1380,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 711f877fc9f9a2744b51f0b5aa6faa7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1389,13 +1417,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757953287}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 18, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1819768910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,7 +1711,7 @@ GameObject:
   - component: {fileID: 1993257209}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1746,7 +1774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 1993257207}
   friend: {fileID: 1431869675}
-  reachedThreshold: 3
+  reachedThreshold: 4
   friendSpotted: 0
   closeEnough: 0
   sightDistance: 10
@@ -1755,7 +1783,7 @@ MonoBehaviour:
   jumpFrequency: 2
   jumpTimer: 0
   jumpHeight: 100
-  jumpDistance: 50
+  jumpDistance: 100
   randTimer: 0
 --- !u!850595691 &2134246634
 LightingSettings:
