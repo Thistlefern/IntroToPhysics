@@ -37,7 +37,7 @@ public class SlimeMotor : MonoBehaviour
         jumpTimer = 0.0f;
         jumpAgain = false;
 
-        reachedThreshold = 4;
+        reachedThreshold = 3.5f;
         sightDistance = 10;
         rotationSpeed = 20;
         jumpDistance = 100;
@@ -54,12 +54,12 @@ public class SlimeMotor : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.0f), transform.forward * sightDistance);
+        Gizmos.DrawRay(transform.position + new Vector3(0.0f, 1.0f, 0.0f), transform.forward * sightDistance);
     }
 
     void Update()
     {
-        friendSpotted = Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), transform.forward, out RaycastHit hit, sightDistance);
+        friendSpotted = Physics.Raycast(transform.position + new Vector3(0.0f, 1.0f, 0.0f), transform.forward, out RaycastHit hit, sightDistance);
                 
         distanceToFriendX = rbody.position.x - friend.position.x;
         distanceToFriendZ = rbody.position.z - friend.position.z;
