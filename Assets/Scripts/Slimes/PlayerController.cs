@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && !hasJumped)
         {
-            rbody.AddForce(transform.up * jumpHeight * Time.deltaTime, ForceMode.Impulse);
+            rbody.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
             hasJumped = true;
         }
 

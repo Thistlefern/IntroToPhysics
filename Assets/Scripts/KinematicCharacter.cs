@@ -36,7 +36,7 @@ public class KinematicCharacter : MonoBehaviour
     {
         Physics.Raycast(new Vector3(playerCollider.transform.position.x,playerCollider.transform.position.y - 0.5f, playerCollider.transform.position.z), Vector3.down, out RaycastHit hit);
 
-        Debug.Log(hit.distance); // TODO come back to this!
+        // Debug.Log(hit.distance); // TODO come back to this!
 
         if (Input.GetKey(KeyCode.D))
         {
