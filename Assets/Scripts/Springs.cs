@@ -26,6 +26,8 @@ public class Springs : MonoBehaviour
 
         force = (-1 * tightness * (restingPos - rbody.position).magnitude) - damper;
 
+        Debug.DrawLine(connectTo.position, rbody.position, Color.red);
+
         rbody.AddForce((rbody.position - restingPos) * force * tightness);
     }
 }
