@@ -7,44 +7,45 @@ public class BoardControls : MonoBehaviour
     public Rigidbody board;
     Vector3 offset;
     public int speed;
+    public int rotationMax;
 
     void Start()
     {
         offset = new Vector3(0, 0, 0);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.A))
         {
             offset.z += speed * Time.deltaTime;
-            if(offset.z > 50)
+            if(offset.z > rotationMax)
             {
-                offset.z = 50;
+                offset.z = rotationMax;
             }
         }
         if (Input.GetKey(KeyCode.D))
         {
             offset.z -= speed * Time.deltaTime;
-            if (offset.z < -50)
+            if (offset.z < 0 - rotationMax)
             {
-                offset.z = -50;
+                offset.z = 0 - rotationMax;
             }
         }
         if (Input.GetKey(KeyCode.W))
         {
             offset.x += speed * Time.deltaTime;
-            if (offset.x > 50)
+            if (offset.x > rotationMax)
             {
-                offset.x = 50;
+                offset.x = rotationMax;
             }
         }
         if (Input.GetKey(KeyCode.S))
         {
             offset.x -= speed * Time.deltaTime;
-            if (offset.x < -50)
+            if (offset.x < 0 - rotationMax)
             {
-                offset.x = -50;
+                offset.x = -0 - rotationMax;
             }
         }
 
