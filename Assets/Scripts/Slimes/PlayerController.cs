@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public int speed;
     public Rigidbody rbody;
-    public int jumpHeight;
+    public float jumpHeight;
 
     public bool hasJumped;
     public bool isFalling;
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
         isFalling = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
         {
