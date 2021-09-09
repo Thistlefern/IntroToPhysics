@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Ragdoll : MonoBehaviour
 {
-    public GameObject seat;
+    public Rigidbody seat;
     public Rigidbody butt;
     public GameObject drama;
     Vector3 tempRotation;
     Vector3 tempPos;
     public bool isRagdolling;
+    public bool isBitching;
+    float velocityCheck;
+    float heightCheck;
 
     private void Start()
     {
@@ -33,6 +36,25 @@ public class Ragdoll : MonoBehaviour
         else
         {
             drama.SetActive(true);
+        }
+    }
+
+    private void Update()
+    {
+        velocityCheck = Mathf.Abs(seat.velocity.z);
+
+        if(velocityCheck <= 0.05)
+        {
+            heightCheck = seat.position.y;
+        }
+
+        if(heightCheck < 1.3 && !isRagdolling)
+        {
+            isBitching = true; // TODO the kid should bitch at the player
+        }
+        else
+        {
+            isBitching = false;
         }
     }
 }
