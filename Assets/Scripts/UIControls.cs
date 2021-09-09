@@ -8,6 +8,10 @@ public class UIControls : MonoBehaviour
 
     public Rigidbody swingNormal;
     public Rigidbody swingTire;
+    public Ragdoll bratRag;
+    public Rigidbody bratRB;
+    public Collider bratColl;
+    public Rigidbody bratHips;
 
     float swingVelCheck;
     float swingHeightCheck;
@@ -18,33 +22,53 @@ public class UIControls : MonoBehaviour
     public bool tireTooHigh;
 
     public bool testBool;
+    public bool punish;
 
     public TextMesh text;
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction * 20);
+        Gizmos.DrawRay(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction * 10000);
     }
 
     void Update()
     {
-        testBool = Physics.Raycast(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction, out RaycastHit hit, 20);
+        testBool = Physics.Raycast(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction, out RaycastHit hit, 10000);
 
         switch (hit.collider.tag)
         {
             case "Swing":
-                text.text = "Swing!";
+                text.text = "Click to push swing";
                 break;
             case "TireSwing":
-                text.text = "Tire Swing!";
+                text.text = "Click to push tire swing";
                 break;
             case "Brat":
-                text.text = "A Doucebag!";
+                text.text = "Click to punish this child";
+                break;
+            case "Head":
+                text.text = "Click to move this child";
                 break;
             default:
                 text.text = "";
                 break;
+        }
+
+        swingVelCheck = Mathf.Abs(swingNormal.velocity.z);
+
+        if (swingVelCheck <= 0.05)
+        {
+            swingHeightCheck = swingNormal.position.y;
+        }
+
+        if (swingHeightCheck >= 5)
+        {
+            swingTooHigh = true;
+        }
+        else
+        {
+            swingTooHigh = false;
         }
 
         tireVelCheck = Mathf.Abs(swingTire.velocity.z);
@@ -63,16 +87,53 @@ public class UIControls : MonoBehaviour
             tireTooHigh = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if(tireTooHigh)
+            switch (hit.collider.tag)
             {
-                Debug.Log("Too high!");
+                case "Swing":
+                    if (swingTooHigh)
+                    {
+                        Debug.Log("Too high!");
+                    }
+                    else
+                    {
+                        swingNormal.AddForce(0.0f, 0.0f, -1.0f, ForceMode.Impulse);
+                    }
+                    break;
+                case "TireSwing":
+                    if (tireTooHigh)
+                    {
+                        Debug.Log("Too high!");
+                    }
+                    else
+                    {
+                        swingTire.AddForce(Random.Range(-0.5f, 0.5f), 0.0f, -1.0f, ForceMode.Impulse);
+                    }
+                    break;
+                case "Brat":
+                    bratRag.isRagdolling = true;
+                    bratRag.isBitching = false;
+                    bratRag.drama.SetActive(true);
+                    bratRB.AddForce(30.0f, 30.0f, 30.0f, ForceMode.Impulse);
+                    bratColl.enabled = false;
+                    punish = true;
+                    break;
+                default:
+                    text.text = "";
+                    break;
             }
-            else
-            {
-                swingTire.AddForce(Random.Range(-0.5f, 0.5f), 0.0f, Random.Range(-0.5f, -1.0f), ForceMode.Impulse);
-            }
+        }
+        if(Input.GetKeyUp(KeyCode.Mouse0) && punish)
+        {
+            punish = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && hit.collider.tag == "Head" && !punish)
+        {
+            Debug.Log("Time Out");
+            bratRB.transform.position = new Vector3(Random.Range(-15.0f, 15.0f), 10.0f, Random.Range(-30.0f, 20.0f)); // x is side to side, z is closer or farther from camera
+            bratHips.rotation = Quaternion.Euler(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
         }
     }
 }

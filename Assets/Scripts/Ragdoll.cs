@@ -9,34 +9,31 @@ public class Ragdoll : MonoBehaviour
     public GameObject drama;
     Vector3 tempRotation;
     Vector3 tempPos;
-    public bool isRagdolling;
     public bool isBitching;
+    public bool isRagdolling;
+    public TextMesh bitchText;
     float velocityCheck;
     float heightCheck;
+    float rudeTimer;
+    float swingTimer;
 
     private void Start()
     {
-        isRagdolling = false;
         tempRotation = Vector3.zero;
         drama.SetActive(false);
+        isRagdolling = false;
+        rudeTimer = 0;
     }
 
     private void FixedUpdate()
     {
-        if (!isRagdolling)
-        {
-            tempRotation.x = 115 * seat.transform.rotation.x;
-            tempRotation.x -= 90;
-            butt.rotation = Quaternion.Euler(tempRotation);
+        tempRotation.x = 115 * seat.transform.rotation.x;
+        tempRotation.x -= 90;
+        butt.rotation = Quaternion.Euler(tempRotation);
 
-            tempPos = seat.transform.position;
-            tempPos.y += 0.57f;
-            butt.position = tempPos;
-        }
-        else
-        {
-            drama.SetActive(true);
-        }
+        tempPos = seat.transform.position;
+        tempPos.y += 0.57f;
+        butt.position = tempPos;
     }
 
     private void Update()
@@ -50,11 +47,57 @@ public class Ragdoll : MonoBehaviour
 
         if(heightCheck < 1.3 && !isRagdolling)
         {
-            isBitching = true; // TODO the kid should bitch at the player
+            isBitching = true;
         }
         else
         {
             isBitching = false;
+        }
+
+        if (!isRagdolling)
+        {
+            if (isBitching)
+            {
+                swingTimer = 0;
+                rudeTimer += Time.deltaTime;
+                if (rudeTimer >= 5 && rudeTimer < 10)
+                {
+                    bitchText.text = "I said push me!!";
+                }
+                else if(rudeTimer >= 10 && rudeTimer < 20)
+                {
+                    bitchText.text = "Are you deaf or just stupid?!";
+                }
+                else if(rudeTimer >= 20)
+                {
+                    bitchText.text = "You're as stupid as your kid!";
+                }
+                else
+                {
+                    bitchText.text = "Give me a push!";
+                }
+            }
+            else
+            {
+                rudeTimer = 0;
+                swingTimer += Time.deltaTime;
+                if(swingTimer < 5)
+                {
+                    bitchText.text = "Wheee!";
+                }
+                else if(swingTimer >= 5 && swingTimer <= 15)
+                {
+                    bitchText.text = "";
+                }
+                else
+                {
+                    bitchText.text = "See kid? This is how you stay on a swing!";
+                }
+            }
+        }
+        else
+        {
+            bitchText.text = "";
         }
     }
 }
