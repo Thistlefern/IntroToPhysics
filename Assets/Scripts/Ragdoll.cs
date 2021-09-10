@@ -16,6 +16,7 @@ public class Ragdoll : MonoBehaviour
     float heightCheck;
     float rudeTimer;
     float swingTimer;
+    public bool hasBeenRude;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class Ragdoll : MonoBehaviour
         drama.SetActive(false);
         isRagdolling = false;
         rudeTimer = 0;
+        hasBeenRude = false;
     }
 
     private void FixedUpdate()
@@ -71,6 +73,7 @@ public class Ragdoll : MonoBehaviour
                 else if(rudeTimer >= 20)
                 {
                     bitchText.text = "You're as stupid as your kid!";
+                    hasBeenRude = true;
                 }
                 else
                 {
@@ -92,6 +95,7 @@ public class Ragdoll : MonoBehaviour
                 else
                 {
                     bitchText.text = "See kid? This is how you stay on a swing!";
+                    hasBeenRude = true;
                 }
             }
         }

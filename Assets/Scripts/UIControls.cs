@@ -45,7 +45,14 @@ public class UIControls : MonoBehaviour
                 text.text = "Click to push tire swing";
                 break;
             case "Brat":
-                text.text = "Click to punish this child";
+                if (bratRag.hasBeenRude)
+                {
+                    text.text = "Click to punish this child";
+                }
+                else
+                {
+                    text.text = "Click to push swing";
+                }
                 break;
             case "Head":
                 text.text = "Click to move this child";
@@ -98,7 +105,7 @@ public class UIControls : MonoBehaviour
                     }
                     else
                     {
-                        swingNormal.AddForce(0.0f, 0.0f, -1.0f, ForceMode.Impulse);
+                        swingNormal.AddForce(0.0f, 0.0f, -0.5f, ForceMode.Impulse);
                     }
                     break;
                 case "TireSwing":
@@ -108,16 +115,30 @@ public class UIControls : MonoBehaviour
                     }
                     else
                     {
-                        swingTire.AddForce(Random.Range(-0.5f, 0.5f), 0.0f, -1.0f, ForceMode.Impulse);
+                        swingTire.AddForce(Random.Range(-0.5f, 0.5f), 0.0f, -0.5f, ForceMode.Impulse);
                     }
                     break;
                 case "Brat":
-                    bratRag.isRagdolling = true;
-                    bratRag.isBitching = false;
-                    bratRag.drama.SetActive(true);
-                    bratRB.AddForce(30.0f, 30.0f, 30.0f, ForceMode.Impulse);
-                    bratColl.enabled = false;
-                    punish = true;
+                    if (bratRag.hasBeenRude)
+                    {
+                        bratRag.isRagdolling = true;
+                        bratRag.isBitching = false;
+                        bratRag.drama.SetActive(true);
+                        bratRB.AddForce(30.0f, 30.0f, 30.0f, ForceMode.Impulse);
+                        bratColl.enabled = false;
+                        punish = true;
+                    }
+                    else
+                    {
+                        if (swingTooHigh)
+                        {
+                            Debug.Log("Too high!");
+                        }
+                        else
+                        {
+                            swingNormal.AddForce(0.0f, 0.0f, -0.5f, ForceMode.Impulse);
+                        }
+                    }
                     break;
                 default:
                     text.text = "";
