@@ -49,9 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.collider.tag);
-
-        if(collision.collider.tag == "Swing")
+        if(collision.collider.CompareTag("Swing"))
         {
             if (hasJumped)
             {
@@ -66,7 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             onSwing = false;
         }
-        if (collision.collider.tag == "TireSwing")
+        if(collision.collider.CompareTag("TireSwing"))
         {
             if (hasJumped)
             {
@@ -93,7 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * speed * Time.fixedDeltaTime;
             isRunning = true;
             if (Input.GetKey(KeyCode.A))
             {
@@ -110,7 +108,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * speed * Time.fixedDeltaTime;
             isRunning = true;
             if (Input.GetKey(KeyCode.A))
             {
@@ -131,7 +129,7 @@ public class PlayerController : MonoBehaviour
             isRunning = true;
             if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
             {
-                transform.position += transform.forward * speed * Time.deltaTime;
+                transform.position += transform.forward * speed * Time.fixedDeltaTime;
                 transform.rotation = Quaternion.Euler(rotW);
             }
         }
@@ -141,7 +139,7 @@ public class PlayerController : MonoBehaviour
             isRunning = true;
             if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
             {
-                transform.position += transform.forward * speed * Time.deltaTime;
+                transform.position += transform.forward * speed * Time.fixedDeltaTime;
                 transform.rotation = Quaternion.Euler(rotE);
             }
         }

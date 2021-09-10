@@ -94,7 +94,7 @@ public class Ragdoll : MonoBehaviour
                 }
                 else
                 {
-                    bitchText.text = "See kid? This is how you stay on a swing!";
+                    bitchText.text = "See kid? This is how\nyou stay on a swing!";
                     hasBeenRude = true;
                 }
             }
