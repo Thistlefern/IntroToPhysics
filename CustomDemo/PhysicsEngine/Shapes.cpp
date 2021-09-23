@@ -44,3 +44,19 @@ bool checkAABB2(const glm::vec2& posA, const shape& shapeA, const glm::vec2& pos
 //}
 
 // bool checkCircleAABB(glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB);
+
+glm::vec2 depenetrateCircleCircle(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB, float& pen)
+{
+	// offset between the two objects
+	glm::vec2 offset = posA - posB;
+	// sum of the radii
+	float radiiSum = shapeA.circleData.radius + shapeB.circleData.radius;
+	float dist = glm::length(offset);
+
+	// write the penetration depth
+	pen = radiiSum - dist;
+
+	// return the collision normal
+	return glm::normalize(offset);
+
+}

@@ -16,6 +16,10 @@ baseGame::baseGame()
 	// register what happens when an AABB-AABB pairing happens
 	collMap[static_cast<collisionPair>(shapeType::AABB | shapeType::AABB)] = checkAABB2;
 	// TODO do circle vs aabb
+
+
+	// register the handler for circle-circle resolutions
+	depenMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)] = depenetrateCircleCircle;
 }
 
 void baseGame::init()
@@ -78,8 +82,14 @@ void baseGame::tickFixed()
 
 			if (collision)
 			{
-				// Collision? Do Things
-				std::cout << "Collision occurred at " << GetTime() << "!" << std::endl;
+				// std::cout << "collision" << std::endl;
+				float pen = 0.0f;
+				glm::vec2 normal = depenMap[pairing](physObjects[lhs].pos,		// lhs position
+													 physObjects[lhs].collider,	// lhs colliders
+													 physObjects[rhs].pos,		// rhs position
+													 physObjects[rhs].collider,	// rhs collider
+													 pen);						// assign pen
+				resolvePhysBodies(physObjects[lhs], physObjects[rhs], 1.0f, normal, pen);
 			}
 		}
 	}

@@ -69,3 +69,51 @@ void physObject::draw() const
 			break;
 	}
 }
+
+// Given two physics objects, return the impuls to be applied
+float resolveCollision(glm::vec2 posA, glm::vec2 velA, float massA,
+					  glm::vec2 posB, glm::vec2 velB, float massB,
+					  float elasticity, glm::vec2 normal)
+{
+	// caluclate the relative velocity
+	glm::vec2 relVel = velA - velB;
+
+	// calculate the magnitude of the impulse to apply
+	float impulseMag = glm::dot(-(1.0f + elasticity) * relVel, normal) /
+					   glm::dot(normal, normal * (1 / massA + 1 / massB));
+
+	// return the impulse
+	return impulseMag;
+}
+
+void resolvePhysBodies(physObject& lhs, physObject& rhs, float elasticity, const glm::vec2& normal, float pen)
+{
+	// calulate our resolution impulse
+	float impulseMag = resolveCollision(lhs.pos, lhs.vel, lhs.mass,
+										rhs.pos, rhs.vel, rhs.mass,
+										elasticity, normal);
+
+	glm::vec2 impulse = impulseMag * normal;
+
+	// depenetrate the two objects
+	pen *= 0.51f;
+
+	// apply resolution impulses to both objects
+	glm::vec2 correction = normal * pen;
+
+	/*lhs.pos += correction;
+	lhs.addImpulse(impulse);
+	rhs.pos -= correction;
+	rhs.addImpulse(-impulse);*/
+
+	if (!lhs.isStatic)
+	{
+		lhs.pos += correction;
+		lhs.addImpulse(impulse);
+	}
+	if (!rhs.isStatic)
+	{
+		rhs.pos -= correction;
+		rhs.addImpulse(-impulse);
+	}
+}
