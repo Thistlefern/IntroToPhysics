@@ -38,12 +38,19 @@ bool checkAABB2(const glm::vec2& posA, const shape& shapeA, const glm::vec2& pos
 	return checkAABB2(posA, shapeA.aabbData, posB, shapeB.aabbData);
 }
 
-//bool checkCircleAABB(glm::vec2 posA, circle circle, glm::vec2 posB, aabb aabb)
-//{
-//	// if the distance between the two positions is less than the sum of the radius and the apothem, they are colliding
-//}
+bool checkCircleAABB(glm::vec2 posA, circle circle, glm::vec2 posB, aabb aabb)
+{
+	aabb.min = { posB.x - aabb.length, posB.y };
+	aabb.max = { posB.x, posB.y + aabb.length };
 
-// bool checkCircleAABB(glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB);
+	return aabb.max.x > posA.x - circle.radius;
+		// aabb.max.x > posA.x - circle.radius;
+}
+
+ bool checkCircleAABB(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB)
+ {
+	 return checkCircleAABB(posA, shapeA.circleData, posB, shapeB.aabbData);
+ }
 
 glm::vec2 depenetrateCircleCircle(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB, float& pen)
 {
@@ -58,5 +65,9 @@ glm::vec2 depenetrateCircleCircle(const glm::vec2& posA, const shape& shapeA, co
 
 	// return the collision normal
 	return glm::normalize(offset);
-
 }
+
+//glm::vec2 depenetrateAABB2(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB, float& pen)
+//{
+//
+//}

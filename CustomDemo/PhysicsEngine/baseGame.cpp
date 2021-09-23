@@ -16,7 +16,7 @@ baseGame::baseGame()
 	// register what happens when an AABB-AABB pairing happens
 	collMap[static_cast<collisionPair>(shapeType::AABB | shapeType::AABB)] = checkAABB2;
 	// TODO do circle vs aabb
-
+	collMap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::AABB)] = checkCircleAABB;
 
 	// register the handler for circle-circle resolutions
 	depenMap[static_cast<uint8_t>(shapeType::CIRCLE | shapeType::CIRCLE)] = depenetrateCircleCircle;

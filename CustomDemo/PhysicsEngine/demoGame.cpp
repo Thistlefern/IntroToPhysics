@@ -3,9 +3,23 @@
 #include "physObject.h"
 #include <iostream>
 
+bool worldGrav = false;
+
 void demoGame::onDraw() const
 {
 	ClearBackground(RAYWHITE);
+	DrawText("Left click to spawn dynamic circle", 5, 5, 15, BLUE);
+	DrawText("Right click to spawn dynamic circle", 5, 20, 15, ORANGE);
+	DrawText("Center click to turn gravity on/off", 5, 35, 15, BLACK);
+	
+	if(worldGrav)
+	{
+		DrawText("Gravity: On", 710, 5, 15, BLACK);
+	}
+	else
+	{
+		DrawText("Gravity: Off", 710, 5, 15, BLACK);
+	}
 }
 
 void demoGame::onTick()
@@ -24,38 +38,19 @@ void demoGame::onTick()
 		newObject.pos.x = cursorPos.x;
 		newObject.pos.y = cursorPos.y;
 
-		newObject.vel.x = GetRandomValue(-30, 30);
-		newObject.vel.y = GetRandomValue(-30, 30);
+		newObject.vel.x = GetRandomValue(-50, 50);
+		newObject.vel.y = GetRandomValue(-50, 50);
 
 		newObject.collider.type = shapeType::CIRCLE;
 		newObject.collider.circleData.radius = (int)GetRandomValue(10, 50);
 
 		newObject.isStatic = false;
+		newObject.gravity = worldGrav;
 
 		physObjects.push_back(newObject);
 	}
 	if (IsMouseButtonPressed(1))
 	{
-		physObject newObject;
-		Vector2 cursorPos = GetMousePosition();
-		newObject.pos.x = cursorPos.x;
-		newObject.pos.y = cursorPos.y;
-
-		newObject.vel.x = GetRandomValue(-50, 50);
-		newObject.vel.y = GetRandomValue(-50, 50);
-
-		newObject.collider.type = shapeType::AABB;
-		newObject.collider.aabbData.length = (int)GetRandomValue(5, 50);
-
-		newObject.isStatic = false;
-
-		physObjects.push_back(newObject);
-	}
-
-	if (IsMouseButtonPressed(2))
-	{
-		std::cout << "Middle" << std::endl;
-
 		physObject newObject;
 		Vector2 cursorPos = GetMousePosition();
 		newObject.pos.x = cursorPos.x;
@@ -70,5 +65,36 @@ void demoGame::onTick()
 		newObject.isStatic = true;
 
 		physObjects.push_back(newObject);
+
+		/*physObject newObject;
+		Vector2 cursorPos = GetMousePosition();
+		newObject.pos.x = cursorPos.x;
+		newObject.pos.y = cursorPos.y;
+
+		newObject.vel.x = GetRandomValue(-50, 50);
+		newObject.vel.y = GetRandomValue(-50, 50);
+
+		newObject.collider.type = shapeType::AABB;
+		newObject.collider.aabbData.length = (int)GetRandomValue(5, 50);
+
+		newObject.collider.aabbData.min.x = newObject.pos.x;
+		newObject.collider.aabbData.min.y = newObject.pos.y + newObject.collider.aabbData.length;
+		newObject.collider.aabbData.max.x = newObject.pos.x + newObject.collider.aabbData.length;
+		newObject.collider.aabbData.max.y = newObject.pos.y;
+
+
+		newObject.isStatic = false;
+
+		physObjects.push_back(newObject);*/
+	}
+
+	if (IsMouseButtonPressed(2))
+	{
+		worldGrav = !worldGrav;
+
+		for (size_t i = 0; i < physObjects.size(); i++)
+		{
+			physObjects[i].gravity = worldGrav;
+		}
 	}
 }

@@ -10,7 +10,8 @@ physObject::physObject()
 	mass = 1.0f;
 	totalForces = { 0,0 };
 	gravity = false;
-	gravPull = { 0, 1 };
+	gravPull = { 0, 50 };
+	isStatic = false;
 
 	collider.type = shapeType::NONE;
 }
@@ -20,7 +21,7 @@ void physObject::tickPhys(float delta)
 	vel += totalForces * delta;
 	totalForces = glm::vec2(0, 0);
 
-	if(gravity)
+	if(gravity && !isStatic)
 	{
 		addAcceleration(gravPull);
 	}
@@ -58,10 +59,19 @@ void physObject::draw() const
 			DrawPixel(pos.x, pos.y, RED);
 			break;
 		case shapeType::CIRCLE:
-			DrawCircle(pos.x, pos.y, collider.circleData.radius, BLUE);
+			if (isStatic)
+			{
+				DrawCircle(pos.x, pos.y, collider.circleData.radius, ORANGE);
+			}
+			else
+			{
+				DrawCircleLines(pos.x, pos.y, collider.circleData.radius, BLUE);
+			}
 			break;
 		case shapeType::AABB:
-			DrawRectangle(pos.x, pos.y, collider.aabbData.length, collider.aabbData.length, GREEN);
+			DrawRectangleLines(pos.x, pos.y, collider.aabbData.length, collider.aabbData.length, GREEN);
+			// DrawCircle(collider.aabbData.min.x, collider.aabbData.min.y, 2, DARKBLUE);
+			// DrawCircle(collider.aabbData.max.x, collider.aabbData.max.y, 2, RED);
 			break;
 		case shapeType::SQUARE:
 			DrawRectangle(pos.x, pos.y, 15, 15, YELLOW);
@@ -70,7 +80,7 @@ void physObject::draw() const
 	}
 }
 
-// Given two physics objects, return the impuls to be applied
+// Given two physics objects, return the impulse to be applied
 float resolveCollision(glm::vec2 posA, glm::vec2 velA, float massA,
 					  glm::vec2 posB, glm::vec2 velB, float massB,
 					  float elasticity, glm::vec2 normal)
