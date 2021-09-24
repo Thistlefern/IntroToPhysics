@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool isFalling;
 
     public float happiness;
-    public TextMesh happinessText;
+    public TMPro.TMP_Text happinessText;
     public bool onSwing;
     public bool onTireSwing;
 
@@ -202,7 +202,14 @@ public class PlayerController : MonoBehaviour
             happiness -= Time.deltaTime * 1.25f;
         }
 
-        happinessText.text = "Happiness: " + Mathf.CeilToInt(happiness).ToString();
+        if (bully.damperOn)
+        {
+            happinessText.text = "Happiness: " + Mathf.CeilToInt(happiness).ToString();
+        }
+        else
+        {
+            happinessText.text = "";
+        }
 
         // ------ Infinite loop, oops
         //while (onSwing)

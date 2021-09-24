@@ -11,12 +11,17 @@ public class Ragdoll : MonoBehaviour
     Vector3 tempPos;
     public bool isBitching;
     public bool isRagdolling;
-    public TextMesh bitchText;
+    public TMPro.TMP_Text bitchText;
     float velocityCheck;
     float heightCheck;
-    float rudeTimer;
+    public float rudeTimer;
     float swingTimer;
     public bool hasBeenRude;
+    public bool timerStart;
+
+    public HingeJoint swingHinge;
+    public float extraTimer;
+    public bool damperOn;
 
     private void Start()
     {
@@ -24,7 +29,15 @@ public class Ragdoll : MonoBehaviour
         drama.SetActive(false);
         isRagdolling = false;
         rudeTimer = 0;
+        extraTimer = 19;
         hasBeenRude = false;
+        timerStart = false;
+        swingHinge.useSpring = false;
+    }
+
+    public void StartTimer()
+    {
+        timerStart = true;
     }
 
     private void FixedUpdate()
@@ -56,7 +69,17 @@ public class Ragdoll : MonoBehaviour
             isBitching = false;
         }
 
-        if (!isRagdolling)
+        if (timerStart && !damperOn)
+        {
+            extraTimer -= Time.deltaTime;
+            if(extraTimer <= 0)
+            {
+                damperOn = true;
+                swingHinge.useSpring = true;
+            }
+        }
+
+        if (!isRagdolling && damperOn)
         {
             if (isBitching)
             {

@@ -5,7 +5,6 @@ using UnityEngine;
 public class UIControls : MonoBehaviour
 {
     public new Camera camera;
-
     public Rigidbody swingNormal;
     public Rigidbody swingTire;
     public Ragdoll bullyRag;
@@ -21,10 +20,12 @@ public class UIControls : MonoBehaviour
     float tireHeightCheck;
     public bool tireTooHigh;
 
-    public bool testBool;
+    public bool pointRay;
     public bool punish;
 
-    public TextMesh text;
+    public TMPro.TMP_Text text;
+
+    public bool gamePlaying;
 
     private void OnDrawGizmos()
     {
@@ -32,38 +33,55 @@ public class UIControls : MonoBehaviour
         Gizmos.DrawRay(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction * 10000);
     }
 
+    private void Start()
+    {
+        gamePlaying = false;
+    }
+
+    public void Play()
+    {
+        gamePlaying = true;
+    }
+
     void Update()
     {
         Cursor.lockState = CursorLockMode.Confined;
 
-        testBool = Physics.Raycast(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction, out RaycastHit hit, 10000);
+        pointRay = Physics.Raycast(transform.position, camera.ScreenPointToRay(Input.mousePosition).direction, out RaycastHit hit, 10000);
 
-        switch (hit.collider.tag)
+        if (bullyRag.damperOn)      // the damperOn check occurs after the story text is done playing, and that's when I want the instruction text to show up too
         {
-            case "Swing":
-                text.text = "Click to push swing";
-                break;
-            case "TireSwing":
-                text.text = "Click to push tire swing";
-                break;
-            case "Brat":
-                if (bullyRag.hasBeenRude)
-                {
-                    text.text = "Click to punish this child";
-                }
-                else
-                {
+            switch (hit.collider.tag)
+            {
+                case "Swing":
                     text.text = "Click to push swing";
-                }
-                break;
-            case "Head":
-                text.text = "Click to move this child";
-                break;
-            default:
-                text.text = "";
-                break;
+                    break;
+                case "TireSwing":
+                    text.text = "Click to push tire swing";
+                    break;
+                case "Brat":
+                    if (bullyRag.hasBeenRude)
+                    {
+                        text.text = "Click to punish this child";
+                    }
+                    else
+                    {
+                        text.text = "Click to push swing";
+                    }
+                    break;
+                case "Head":
+                    text.text = "Click to move this child";
+                    break;
+                default:
+                    text.text = "";
+                    break;
+            }
         }
-
+        else
+        {
+            text.text = "";
+        }
+        #region velocityChecks
         swingVelCheck = Mathf.Abs(swingNormal.velocity.z);
 
         if (swingVelCheck <= 0.05)
@@ -95,7 +113,8 @@ public class UIControls : MonoBehaviour
         {
             tireTooHigh = false;
         }
-
+        #endregion
+        #region controls
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             switch (hit.collider.tag)
@@ -157,5 +176,11 @@ public class UIControls : MonoBehaviour
             bullyRB.transform.position = new Vector3(Random.Range(-10.0f, 10.0f), 10.0f, Random.Range(-20.0f, 10.0f)); // x is side to side, z is closer or farther from camera
             bullyHips.rotation = Quaternion.Euler(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+        #endregion
     }
 }
