@@ -47,10 +47,10 @@ bool checkCircleAABB(glm::vec2 posA, circle circle, glm::vec2 posB, aabb aabb)
 		// aabb.max.x > posA.x - circle.radius;
 }
 
- bool checkCircleAABB(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB)
- {
+bool checkCircleAABB(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB)
+{
 	 return checkCircleAABB(posA, shapeA.circleData, posB, shapeB.aabbData);
- }
+}
 
 glm::vec2 depenetrateCircleCircle(const glm::vec2& posA, const shape& shapeA, const glm::vec2& posB, const shape& shapeB, float& pen)
 {

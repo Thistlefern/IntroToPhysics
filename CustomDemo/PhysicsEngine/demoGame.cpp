@@ -2,8 +2,10 @@
 #include "raylib/raylib.h"
 #include "physObject.h"
 #include <iostream>
+#include <sstream>
 
 bool worldGrav = false;
+int worldGravPull = 40;
 
 void demoGame::onDraw() const
 {
@@ -11,15 +13,20 @@ void demoGame::onDraw() const
 	DrawText("Left click to spawn dynamic circle", 5, 5, 15, BLUE);
 	DrawText("Right click to spawn dynamic circle", 5, 20, 15, ORANGE);
 	DrawText("Center click to turn gravity on/off", 5, 35, 15, BLACK);
+	DrawText("Use up/down arrows to adjust the strength of gravity", 710, 5, 15, BLACK);
 	
 	if(worldGrav)
 	{
-		DrawText("Gravity: On", 710, 5, 15, BLACK);
+		DrawText("Gravity: On", 710, 20, 15, BLACK);
 	}
 	else
 	{
-		DrawText("Gravity: Off", 710, 5, 15, BLACK);
+		DrawText("Gravity: Off", 710, 20, 15, BLACK);
 	}
+
+	std::stringstream stream;
+	stream << worldGravPull;
+	DrawText(stream.str().c_str(), 710, 35, 15, BLACK);
 }
 
 void demoGame::onTick()
@@ -46,6 +53,7 @@ void demoGame::onTick()
 
 		newObject.isStatic = false;
 		newObject.gravity = worldGrav;
+		newObject.gravPull.y = worldGravPull;
 
 		physObjects.push_back(newObject);
 	}
@@ -95,6 +103,26 @@ void demoGame::onTick()
 		for (size_t i = 0; i < physObjects.size(); i++)
 		{
 			physObjects[i].gravity = worldGrav;
+			physObjects[i].gravPull.y = worldGravPull;
+		}
+	}
+
+	if(IsKeyPressed(KEY_UP))
+	{
+		worldGravPull += 20;
+		for (size_t i = 0; i < physObjects.size(); i++)
+		{
+			physObjects[i].gravity = worldGrav;
+			physObjects[i].gravPull.y = worldGravPull;
+		}
+	}
+	if(IsKeyPressed(KEY_DOWN))
+	{
+		worldGravPull -= 20;
+		for (size_t i = 0; i < physObjects.size(); i++)
+		{
+			physObjects[i].gravity = worldGrav;
+			physObjects[i].gravPull.y = worldGravPull;
 		}
 	}
 }
