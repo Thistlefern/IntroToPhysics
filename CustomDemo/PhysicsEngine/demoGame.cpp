@@ -11,7 +11,7 @@ void demoGame::onDraw() const
 {
 	ClearBackground(RAYWHITE);
 	DrawText("Left click to spawn dynamic circle", 5, 5, 15, BLUE);
-	DrawText("Right click to spawn dynamic circle", 5, 20, 15, ORANGE);
+	DrawText("Right click to spawn static circle", 5, 20, 15, ORANGE);
 	DrawText("Center click to turn gravity on/off", 5, 35, 15, BLACK);
 	DrawText("Use up/down arrows to adjust the strength of gravity", 710, 5, 15, BLACK);
 	
