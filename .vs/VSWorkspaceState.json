@@ -1,8 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\CustomDemo"
+    "\\CustomDemo",
+    "\\CustomDemo\\PhysicsEngine",
+    "\\CustomDemo\\ThirdParty",
+    "\\UnityDemo\\Assets",
+    "\\UnityDemo\\Assets\\Scripts",
+    "\\UnityDemo\\Assets\\Scripts\\Slimes"
   ],
-  "SelectedNode": "\\CustomDemo\\PhysicsDemo.sln",
+  "SelectedNode": "\\CustomDemo\\PhysicsEngine\\Shapes.cpp",
   "PreviewInSolutionExplorer": false
 }
